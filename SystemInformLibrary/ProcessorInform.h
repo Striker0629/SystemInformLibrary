@@ -1,23 +1,20 @@
-#pragma once
 #ifndef PROCESSOR_INFORM_H
 #define PROCESSOR_INFORM_H
-
 #include<iostream>
 #include<powerbase.h>
 #include<string>
+#include<fstream>
+#include<unordered_map>
+typedef std::unordered_map<std::string, std::string> cpu_map;
 class ProcessorInform
 {
 	std::string cpu_id_;
-	std::string name_;
-	std::string description_;
-	uint16_t adress_width_;
-	uint16_t cores_;
-
+	cpu_map value_map_;
 
 public:
-	ProcessorInform();
-	//void Querry(WmiCoObject* ptr_)override;
+	ProcessorInform(const char* path = "../res/cpu.txt");
 	~ProcessorInform();
+	std::string& operator[](const char* string);
 };
 
 #endif // !PROCESSOR_INFORM_H
