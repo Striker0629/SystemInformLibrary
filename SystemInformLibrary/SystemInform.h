@@ -7,15 +7,16 @@
 #include"WmiQuerry.h"
 #pragma comment(lib,"wbemuuid.lib")
 
-class SystemInform
+class SystemInformCollection
 {
-	ProcessorInform cpu_inform_;
 	WmiCoObject query_;
-	SystemInform();
-	~SystemInform();
+	SystemInformCollection();
+	~SystemInformCollection();
 public:
-	SystemInform(const SystemInform& right) = delete;
-	SystemInform& Instance();
+	SystemInformCollection(const SystemInformCollection& right) = delete;
+	static SystemInformCollection& Instance();
+	ProcessorInform cpu_inform_;
+	ProcessorInform memory_inform_;
 };
 
 #endif

@@ -2,10 +2,10 @@
 
 
 
-ProcessorInform::ProcessorInform(const char* path = "../res/cpu.txt")
+ProcessorInform::ProcessorInform(const char* path)
 {
 
-	cpu_id_ = "CPU0";
+
 	std::ifstream read(path);
 	std::string temp;
 	if (read.is_open()) {
@@ -15,8 +15,6 @@ ProcessorInform::ProcessorInform(const char* path = "../res/cpu.txt")
 		}
 		read.close();
 	}
-	for (auto&& i : value_map_)
-		std::cerr << i.first << std::endl;
 
 }
 
@@ -29,4 +27,19 @@ ProcessorInform::~ProcessorInform()
 std::string & ProcessorInform::operator[](const char * string)
 {
 	return value_map_[string];
+}
+
+cpu_map & ProcessorInform::GetContainer()
+{
+	return value_map_;
+}
+
+cpu_map_it ProcessorInform::Begin() const
+{
+	return value_map_.cbegin();
+}
+
+cpu_map_it ProcessorInform::End() const
+{
+	return value_map_.end();
 }

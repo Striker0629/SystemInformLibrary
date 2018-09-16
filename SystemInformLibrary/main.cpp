@@ -7,14 +7,28 @@
 #include<algorithm>
 #include<unordered_map>
 #include"SystemInform.h"
-#pragma comment(lib,"wbemuuid.lib")
 
 
 
 
 int main()
 {
-	ProcessorInform obj;
+
+	//WmiCoObject object{ "ROOT\\CIMV2" };
+	try
+	{
+		SystemInformCollection::Instance();
+		for (auto it = SystemInformCollection::Instance().cpu_inform_.Begin(); it != SystemInformCollection::Instance().cpu_inform_.End(); ++it)
+			std::cerr << it->first << '\t' << it->second << std::endl;
+		for (auto it = SystemInformCollection::Instance().memory_inform_.Begin(); it != SystemInformCollection::Instance().memory_inform_.End(); ++it)
+			std::cerr << it->first << '\t' << it->second << std::endl;
+	}
+	catch (...)
+	{
+		std::cerr << "ERROR" << std::endl;
+	}
+	
+	/*ProcessorInform obj;*/
 
 #ifdef TEST
 	WmiCoObject object{ "ROOT\\CIMV2" };

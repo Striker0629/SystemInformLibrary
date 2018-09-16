@@ -1,0 +1,8 @@
+Description
+DeviceLocator
+CreationClassName
+ConfiguredVoltage
+Name
+PartNumber
+SerialNumber
+SMBIOSMemoryType

@@ -1,0 +1,5 @@
+Name
+NumberOfCores
+Characteristics
+Manufacturer
+PartNumber

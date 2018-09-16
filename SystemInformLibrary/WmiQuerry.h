@@ -11,6 +11,7 @@
 #pragma comment(lib,"wbemuuid.lib")
 
 
+
 class WmiCoObject
 {
 	bool connected_;

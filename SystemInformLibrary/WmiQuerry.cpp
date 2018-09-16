@@ -66,7 +66,7 @@ std::string WmiCoObject::GetData(const char* target, const char* name)
 	HRESULT hres;
 	IWbemClassObject* plcs_obj = nullptr;
 	hres = psvc_->GetObject(_com_util::ConvertStringToBSTR(target), 0, NULL, &plcs_obj, NULL);
-
+	
 	CIMTYPE types;
 	VARIANT value;
 	VariantInit(&value);
@@ -131,7 +131,7 @@ void WmiCoObject::GetData(const char* target, std::unordered_map<std::string, st
 			case CIM_STRING:
 				char* print = _com_util::ConvertBSTRToString(value.bstrVal);
 				it->second = print;
-				//delete[]print;
+				delete[]print;
 				break;
 			}
 		}
