@@ -5,20 +5,20 @@
 #include<string>
 #include<fstream>
 #include<unordered_map>
-typedef std::unordered_map<std::string, std::string> cpu_map;
-typedef std::unordered_map<std::string, std::string>::const_iterator cpu_map_it;
-class ProcessorInform
+typedef std::unordered_map<std::wstring, std::wstring> ComponentMap;
+typedef std::unordered_map<std::wstring, std::wstring>::const_iterator ComponentMapIt;
+class ComponentInform
 {
 
-	cpu_map value_map_;
+	ComponentMap value_map_;
 
 public:
-	ProcessorInform(const char* path = "../res/cpu.txt");
-	~ProcessorInform();
-	std::string& operator[](const char* string);
-	cpu_map& GetContainer();
-	cpu_map_it Begin()const;
-	cpu_map_it End() const;
+	ComponentInform(const char* path = "../res/cpu.txt");
+	~ComponentInform();
+	std::wstring& operator[](const wchar_t* string);
+	ComponentMap& GetContainer();
+	ComponentMapIt Begin()const;
+	ComponentMapIt End() const;
 };
 
 #endif // !PROCESSOR_INFORM_H

@@ -7,7 +7,7 @@ WmiCoObject::WmiCoObject(const char* root) :
 	hres_{ 0 },
 	connected_{ false },
 	ploc_{ nullptr },
-	psvc_{ nullptr },
+	psvc{ nullptr },
 	object_{ nullptr }
 {
 	hres_ = CoInitializeEx(0, COINIT_MULTITHREADED);
@@ -42,12 +42,12 @@ WmiCoObject::WmiCoObject(const char* root) :
 		NULL,
 		0,
 		0,
-		&psvc_
+		&psvc
 	);
 	if (FAILED(hres_))throw;
 
 	hres_ = CoSetProxyBlanket(
-		psvc_,
+		psvc,
 		RPC_C_AUTHN_WINNT,
 		RPC_C_AUTHZ_NONE,
 		NULL,
@@ -61,11 +61,11 @@ WmiCoObject::WmiCoObject(const char* root) :
 
 }
 
-std::string WmiCoObject::GetData(const char* target, const char* name)
+[[deprecated]] std::string WmiCoObject::GetData(const char* target, const char* name)
 {
 	HRESULT hres;
 	IWbemClassObject* plcs_obj = nullptr;
-	hres = psvc_->GetObject(_com_util::ConvertStringToBSTR(target), 0, NULL, &plcs_obj, NULL);
+	hres = psvc->GetObject(_com_util::ConvertStringToBSTR(target), 0, NULL, &plcs_obj, NULL);
 	
 	CIMTYPE types;
 	VARIANT value;
@@ -98,17 +98,20 @@ std::string WmiCoObject::GetData(const char* target, const char* name)
 
 }
 
-void WmiCoObject::GetData(const char* target, std::unordered_map<std::string, std::string>& map)
+void WmiCoObject::GetData(const char* target, std::unordered_map<std::wstring, std::wstring>& map)
 {
 	HRESULT hres;
 	IWbemClassObject* plcs_obj = nullptr;
-	hres = psvc_->GetObject(_com_util::ConvertStringToBSTR(target), 0, NULL, &plcs_obj, NULL);
+	hres = psvc->GetObject(_com_util::ConvertStringToBSTR(target), 0, NULL, &plcs_obj, NULL);
 
 	CIMTYPE types;
 	VARIANT value;
 	VariantInit(&value);
 	for (auto it = map.begin(); it != map.end(); ++it) {
-		HRESULT res = plcs_obj->Get(_com_util::ConvertStringToBSTR(it->first.c_str()), 0, &value, &types, NULL);
+		const char* string_key;
+		_bstr_t temporary_key(it->first.c_str());
+		string_key = temporary_key;
+		HRESULT res = plcs_obj->Get(_com_util::ConvertStringToBSTR(string_key), 0, &value, &types, NULL);
 		
 		if (FAILED(res))throw;
 		if (types != CIM_ILLEGAL)
@@ -118,20 +121,25 @@ void WmiCoObject::GetData(const char* target, std::unordered_map<std::string, st
 			{
 			case CIM_REAL32:
 				
-				it->second = std::to_string(value.fltVal);
+				it->second = std::to_wstring(value.fltVal);
 				break;
 			case CIM_UINT32:
 				
-				it->second = std::to_string(value.uintVal);
+				it->second = std::to_wstring(value.uintVal);
 				break;
 			case CIM_SINT32:
 				
-				it->second = std::to_string(value.intVal);
+				it->second = std::to_wstring(value.intVal);
 				break;
 			case CIM_STRING:
+				
 				char* print = _com_util::ConvertBSTRToString(value.bstrVal);
-				it->second = print;
+				if (print != nullptr)
+				{
+					auto wchar_string = _bstr_t(print);
+				it->second = wchar_string;
 				delete[]print;
+				}
 				break;
 			}
 		}
@@ -143,7 +151,7 @@ void WmiCoObject::GetData(const char* target, std::unordered_map<std::string, st
 
 IWbemServices *  WmiCoObject::GetServices() const
 {
-	return psvc_;
+	return psvc;
 }
 
 //_bstr_t WmiCoObject::QuerryText() const
@@ -159,7 +167,7 @@ IWbemServices *  WmiCoObject::GetServices() const
 
 WmiCoObject::~WmiCoObject()
 {
-	psvc_->Release();
+	psvc->Release();
 	ploc_->Release();
 	CoUninitialize();
 }

@@ -15,8 +15,8 @@ class SystemInformCollection
 public:
 	SystemInformCollection(const SystemInformCollection& right) = delete;
 	static SystemInformCollection& Instance();
-	ProcessorInform cpu_inform_;
-	ProcessorInform memory_inform_;
+	ComponentInform cpu_table;
+	ComponentInform memory_table;
 };
 
 #endif
