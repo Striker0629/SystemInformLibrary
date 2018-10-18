@@ -11,7 +11,6 @@ class SystemInformCollection
 {
 	WmiCoObject query_;
 	SystemInformCollection();
-	~SystemInformCollection();
 public:
 	SystemInformCollection(const SystemInformCollection& right) = delete;
 	static SystemInformCollection& Instance();

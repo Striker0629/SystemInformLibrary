@@ -19,6 +19,10 @@ public:
 	ComponentMap& GetContainer();
 	ComponentMapIt Begin()const;
 	ComponentMapIt End() const;
+	inline bool IsEmpty()const
+	{
+		return value_map_.empty();
+	}
 };
 
 #endif // !PROCESSOR_INFORM_H

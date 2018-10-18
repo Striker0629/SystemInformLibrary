@@ -15,6 +15,8 @@ ComponentInform::ComponentInform(const char* path)
 		}
 		read.close();
 	}
+	else
+		std::cout << "CAN'T FIND PATH" << std::endl;
 
 }
 
@@ -41,5 +43,5 @@ ComponentMapIt ComponentInform::Begin() const
 
 ComponentMapIt ComponentInform::End() const
 {
-	return value_map_.end();
+	return value_map_.cend();
 }

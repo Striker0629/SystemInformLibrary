@@ -5,23 +5,37 @@
 #include<wbemidl.h>
 #include<chrono>
 #include<algorithm>
+#include<iterator>
 #include<unordered_map>
 #include"SystemInform.h"
 
-
-
+#include<tchar.h>
+#include<io.h>
+#include <fcntl.h>
 
 int main()
 {
 
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	_setmode(_fileno(stdin), _O_U16TEXT);
+	SetConsoleCP(1200);
 	//WmiCoObject object{ "ROOT\\CIMV2" };
+	//std::wstring str = L"Привет Мир";
+	//std::wcout << str << std::endl;
 	try
 	{
 		
 		for (auto it = SystemInformCollection::Instance().cpu_table.Begin(); it != SystemInformCollection::Instance().cpu_table.End(); ++it)
 			std::wcout << it->first << '\t' << it->second << std::endl;
-		for (auto it = SystemInformCollection::Instance().memory_table.Begin(); it != SystemInformCollection::Instance().memory_table.End(); ++it)
-			std::wcout << it->first << '\t' << it->second << std::endl;
+		if (SystemInformCollection::Instance().memory_table.IsEmpty())
+		{
+			std::cout << "MEMORY TABLE EMPTY!!!" << std::endl;
+		}
+		else {
+			std::wcout << std::endl;
+			for (auto it = SystemInformCollection::Instance().memory_table.Begin(); it != SystemInformCollection::Instance().memory_table.End(); ++it)
+				std::wcout << it->first << '\t' << it->second << std::endl;
+		}
 	}
 	catch (...)
 	{
@@ -60,6 +74,6 @@ int main()
 	/*ProcessorInform inform;
 	inform.Querry(&object);*/
 #endif
-	std::cin.get();
+	std::wcin.get();
 	return 0;
 }

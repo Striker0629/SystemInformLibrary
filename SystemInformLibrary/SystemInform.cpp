@@ -10,9 +10,6 @@ SystemInformCollection::SystemInformCollection():query_{ "ROOT\\CIMV2" },cpu_tab
 }
 
 
-SystemInformCollection::~SystemInformCollection()
-{
-}
 
  SystemInformCollection & SystemInformCollection::Instance()
 {
