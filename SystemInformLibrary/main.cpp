@@ -24,24 +24,19 @@ int main()
 	//std::wcout << str << std::endl;
 	try
 	{
-		
+
 		for (auto it = SystemInformCollection::Instance().cpu_table.Begin(); it != SystemInformCollection::Instance().cpu_table.End(); ++it)
 			std::wcout << it->first << '\t' << it->second << std::endl;
-		if (SystemInformCollection::Instance().memory_table.IsEmpty())
-		{
-			std::cout << "MEMORY TABLE EMPTY!!!" << std::endl;
-		}
-		else {
-			std::wcout << std::endl;
-			for (auto it = SystemInformCollection::Instance().memory_table.Begin(); it != SystemInformCollection::Instance().memory_table.End(); ++it)
-				std::wcout << it->first << '\t' << it->second << std::endl;
-		}
+		std::wcout << std::endl;
+		for (auto it = SystemInformCollection::Instance().memory_table.Begin(); it != SystemInformCollection::Instance().memory_table.End(); ++it)
+			std::wcout << it->first << '\t' << it->second << std::endl;
+
 	}
 	catch (...)
 	{
 		std::cerr << "ERROR" << std::endl;
 	}
-	
+
 	/*ProcessorInform obj;*/
 
 #ifdef TEST
@@ -51,7 +46,7 @@ int main()
 	(*value_map)["NumberOfCores"];
 	(*value_map)["Manufacturer"];
 	auto time_point1 = std::chrono::high_resolution_clock::now();
-	
+
 	object.GetData("Win32_Processor.DeviceID='CPU0'", *value_map);
 
 	//std::for_each(value_map->begin(), value_map->end(), [&](auto&& map_iter)
